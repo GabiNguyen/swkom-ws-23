@@ -1,0 +1,11 @@
+services:
+  paperless-rest:
+    build: ./paperless-rest
+    ports:
+      - "8000:8000"
+  paperless-ui:
+    build: ./paperless-ngx-ui
+    ports:
+      - "80s:80"
+    depends_on:
+      - paperless-rest
