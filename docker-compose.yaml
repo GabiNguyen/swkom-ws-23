@@ -2,7 +2,7 @@ services:
   paperless-rest:
     build: ./paperless-rest
     ports:
-      - "8000:8000"
+      - "8080:8080"
   paperless-ui:
     build: ./paperless-ngx-ui
     ports:
