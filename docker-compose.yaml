@@ -6,6 +6,6 @@ services:
   paperless-ui:
     build: ./paperless-ngx-ui
     ports:
-      - "80s:80"
+      - "80:80"
     depends_on:
       - paperless-rest
