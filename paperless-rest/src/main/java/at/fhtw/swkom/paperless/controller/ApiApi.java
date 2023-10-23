@@ -6,6 +6,7 @@
 package at.fhtw.swkom.paperless.controller;
 
 import at.fhtw.swkom.paperless.services.dto.AckTasks200Response;
+import at.fhtw.swkom.paperless.services.dto.AckTasksRequest;
 import at.fhtw.swkom.paperless.services.dto.BulkEditRequest;
 import at.fhtw.swkom.paperless.services.dto.CreateCorrespondentRequest;
 import at.fhtw.swkom.paperless.services.dto.CreateDocumentType200Response;
@@ -51,12 +52,15 @@ import at.fhtw.swkom.paperless.services.dto.UpdateTag200Response;
 import at.fhtw.swkom.paperless.services.dto.UpdateTagRequest;
 import at.fhtw.swkom.paperless.services.dto.UpdateUserRequest;
 import at.fhtw.swkom.paperless.services.dto.UserInfo;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import org.springframework.http.HttpStatus;
@@ -68,22 +72,25 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-09-23T13:24:46.925443Z[Etc/UTC]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-16T10:33:23.761202Z[Etc/UTC]")
 @Validated
 @Tag(name = "Tasks", description = "the Tasks API")
-public interface Api {
+public interface ApiApi {
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
 
     /**
-     * POST /api/acknowledge_tasks
+     * POST /api/acknowledge_tasks/
      *
+     * @param ackTasksRequest  (optional)
      * @return Success (status code 200)
      */
     @Operation(
@@ -97,13 +104,13 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/api/acknowledge_tasks",
+        value = "/api/acknowledge_tasks/",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<AckTasks200Response> ackTasks(
-        ) {
+        @Parameter(name = "AckTasksRequest", description = "") @Valid @RequestBody(required = false) AckTasksRequest ackTasksRequest
+    ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -113,13 +120,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api
+     * GET /api/
      *
      * @return Success (status code 200)
      */
@@ -132,19 +139,18 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api"
+        value = "/api/"
     )
-    
     default ResponseEntity<Void> apiGet(
         
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/search/autocomplete
+     * GET /api/search/autocomplete/
      *
      * @param term  (optional)
      * @param limit  (optional)
@@ -161,13 +167,12 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/search/autocomplete",
+        value = "/api/search/autocomplete/",
         produces = { "application/json" }
     )
-    
     default ResponseEntity<List<String>> autoComplete(
-        @Parameter(name = "term", in = ParameterIn.QUERY) @Valid @RequestParam(value = "term", required = false) String term,
-        @Parameter(name = "limit", in = ParameterIn.QUERY) @Valid @RequestParam(value = "limit", required = false) Integer limit
+        @Parameter(name = "term", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "term", required = false) String term,
+        @Parameter(name = "limit", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "limit", required = false) Integer limit
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -178,13 +183,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * POST /api/documents/bulk_edit
+     * POST /api/documents/bulk_edit/
      *
      * @param bulkEditRequest  (optional)
      * @return Success (status code 200)
@@ -198,20 +203,19 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/api/documents/bulk_edit",
+        value = "/api/documents/bulk_edit/",
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<Void> bulkEdit(
         @Parameter(name = "BulkEditRequest", description = "") @Valid @RequestBody(required = false) BulkEditRequest bulkEditRequest
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * POST /api/correspondents
+     * POST /api/correspondents/
      *
      * @param createCorrespondentRequest  (optional)
      * @return Success (status code 200)
@@ -227,11 +231,10 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/api/correspondents",
+        value = "/api/correspondents/",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<CreateCorrespondentRequest> createCorrespondent(
         @Parameter(name = "CreateCorrespondentRequest", description = "") @Valid @RequestBody(required = false) CreateCorrespondentRequest createCorrespondentRequest
     ) {
@@ -244,13 +247,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * POST /api/document_types
+     * POST /api/document_types/
      *
      * @param createCorrespondentRequest  (optional)
      * @return Success (status code 200)
@@ -266,11 +269,10 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/api/document_types",
+        value = "/api/document_types/",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<CreateDocumentType200Response> createDocumentType(
         @Parameter(name = "CreateCorrespondentRequest", description = "") @Valid @RequestBody(required = false) CreateCorrespondentRequest createCorrespondentRequest
     ) {
@@ -283,13 +285,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * POST /api/groups
+     * POST /api/groups/
      *
      * @param createGroupRequest  (optional)
      * @return Success (status code 200)
@@ -305,21 +307,20 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/api/groups",
+        value = "/api/groups/",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<Object> createGroup(
         @Parameter(name = "CreateGroupRequest", description = "") @Valid @RequestBody(required = false) CreateGroupRequest createGroupRequest
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * POST /api/saved_views
+     * POST /api/saved_views/
      *
      * @param createSavedViewsRequest  (optional)
      * @return Success (status code 200)
@@ -333,20 +334,19 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/api/saved_views",
+        value = "/api/saved_views/",
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<Void> createSavedViews(
         @Parameter(name = "CreateSavedViewsRequest", description = "") @Valid @RequestBody(required = false) CreateSavedViewsRequest createSavedViewsRequest
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * POST /api/storage_paths
+     * POST /api/storage_paths/
      *
      * @param createStoragePathRequest  (optional)
      * @return Success (status code 200)
@@ -362,11 +362,10 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/api/storage_paths",
+        value = "/api/storage_paths/",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<CreateStoragePath200Response> createStoragePath(
         @Parameter(name = "CreateStoragePathRequest", description = "") @Valid @RequestBody(required = false) CreateStoragePathRequest createStoragePathRequest
     ) {
@@ -379,13 +378,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * POST /api/tags
+     * POST /api/tags/
      *
      * @param createTagRequest  (optional)
      * @return Success (status code 200)
@@ -401,11 +400,10 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/api/tags",
+        value = "/api/tags/",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<CreateTag200Response> createTag(
         @Parameter(name = "CreateTagRequest", description = "") @Valid @RequestBody(required = false) CreateTagRequest createTagRequest
     ) {
@@ -418,13 +416,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * POST /api/ui_settings
+     * POST /api/ui_settings/
      *
      * @param createUISettingsRequest  (optional)
      * @return Success (status code 200)
@@ -440,11 +438,10 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/api/ui_settings",
+        value = "/api/ui_settings/",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<CreateUISettings200Response> createUISettings(
         @Parameter(name = "CreateUISettingsRequest", description = "") @Valid @RequestBody(required = false) CreateUISettingsRequest createUISettingsRequest
     ) {
@@ -457,13 +454,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * POST /api/users
+     * POST /api/users/
      *
      * @param createUserRequest  (optional)
      * @return Success (status code 200)
@@ -479,11 +476,10 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/api/users",
+        value = "/api/users/",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<GetUsers200ResponseResultsInner> createUser(
         @Parameter(name = "CreateUserRequest", description = "") @Valid @RequestBody(required = false) CreateUserRequest createUserRequest
     ) {
@@ -496,13 +492,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * DELETE /api/correspondents/{id}
+     * DELETE /api/correspondents/{id}/
      *
      * @param id  (required)
      * @return Success (status code 204)
@@ -516,19 +512,18 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/api/correspondents/{id}"
+        value = "/api/correspondents/{id}/"
     )
-    
     default ResponseEntity<Void> deleteCorrespondent(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * DELETE /api/documents/{id}
+     * DELETE /api/documents/{id}/
      *
      * @param id  (required)
      * @return Success (status code 204)
@@ -542,19 +537,18 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/api/documents/{id}"
+        value = "/api/documents/{id}/"
     )
-    
     default ResponseEntity<Void> deleteDocument(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * DELETE /api/document_types/{id}
+     * DELETE /api/document_types/{id}/
      *
      * @param id  (required)
      * @return Success (status code 204)
@@ -568,19 +562,18 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/api/document_types/{id}"
+        value = "/api/document_types/{id}/"
     )
-    
     default ResponseEntity<Void> deleteDocumentType(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * DELETE /api/groups/{id}
+     * DELETE /api/groups/{id}/
      *
      * @param id  (required)
      * @return Success (status code 204)
@@ -594,19 +587,18 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/api/groups/{id}"
+        value = "/api/groups/{id}/"
     )
-    
     default ResponseEntity<Void> deleteGroup(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * DELETE /api/storage_paths/{id}
+     * DELETE /api/storage_paths/{id}/
      *
      * @param id  (required)
      * @return Success (status code 204)
@@ -620,19 +612,18 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/api/storage_paths/{id}"
+        value = "/api/storage_paths/{id}/"
     )
-    
     default ResponseEntity<Void> deleteStoragePath(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * DELETE /api/tags/{id}
+     * DELETE /api/tags/{id}/
      *
      * @param id  (required)
      * @return Success (status code 204)
@@ -646,19 +637,18 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/api/tags/{id}"
+        value = "/api/tags/{id}/"
     )
-    
     default ResponseEntity<Void> deleteTag(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * DELETE /api/users/{id}
+     * DELETE /api/users/{id}/
      *
      * @param id  (required)
      * @return Success (status code 204)
@@ -672,19 +662,18 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/api/users/{id}"
+        value = "/api/users/{id}/"
     )
-    
     default ResponseEntity<Void> deleteUser(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/documents/{id}/download
+     * GET /api/documents/{id}/download/
      *
      * @param id  (required)
      * @param original  (optional)
@@ -701,21 +690,20 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/documents/{id}/download",
+        value = "/api/documents/{id}/download/",
         produces = { "application/pdf" }
     )
-    
     default ResponseEntity<org.springframework.core.io.Resource> downloadDocument(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id,
         @Parameter(name = "original", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "original", required = false) Boolean original
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/correspondents
+     * GET /api/correspondents/
      *
      * @param page  (optional)
      * @param fullPerms  (optional)
@@ -732,10 +720,9 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/correspondents",
+        value = "/api/correspondents/",
         produces = { "application/json" }
     )
-    
     default ResponseEntity<GetCorrespondents200Response> getCorrespondents(
         @Parameter(name = "page", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page", required = false) Integer page,
         @Parameter(name = "full_perms", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "full_perms", required = false) Boolean fullPerms
@@ -749,13 +736,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/documents/{id}
+     * GET /api/documents/{id}/
      *
      * @param id  (required)
      * @param page  (optional)
@@ -773,10 +760,9 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/documents/{id}",
+        value = "/api/documents/{id}/",
         produces = { "application/json" }
     )
-    
     default ResponseEntity<GetDocument200Response> getDocument(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id,
         @Parameter(name = "page", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page", required = false) Integer page,
@@ -791,13 +777,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/documents/{id}/metadata
+     * GET /api/documents/{id}/metadata/
      *
      * @param id  (required)
      * @return Success (status code 200)
@@ -813,10 +799,9 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/documents/{id}/metadata",
+        value = "/api/documents/{id}/metadata/",
         produces = { "application/json" }
     )
-    
     default ResponseEntity<GetDocumentMetadata200Response> getDocumentMetadata(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id
     ) {
@@ -829,13 +814,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/documents/{id}/preview
+     * GET /api/documents/{id}/preview/
      *
      * @param id  (required)
      * @return Success (status code 200)
@@ -851,20 +836,19 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/documents/{id}/preview",
+        value = "/api/documents/{id}/preview/",
         produces = { "application/pdf" }
     )
-    
     default ResponseEntity<org.springframework.core.io.Resource> getDocumentPreview(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/documents/{id}/suggestions
+     * GET /api/documents/{id}/suggestions/
      *
      * @param id  (required)
      * @return Success (status code 200)
@@ -880,10 +864,9 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/documents/{id}/suggestions",
+        value = "/api/documents/{id}/suggestions/",
         produces = { "application/json" }
     )
-    
     default ResponseEntity<GetDocumentSuggestions200Response> getDocumentSuggestions(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id
     ) {
@@ -896,13 +879,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/documents/{id}/thumb
+     * GET /api/documents/{id}/thumb/
      *
      * @param id  (required)
      * @return Success (status code 200)
@@ -918,20 +901,19 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/documents/{id}/thumb",
+        value = "/api/documents/{id}/thumb/",
         produces = { "application/pdf" }
     )
-    
     default ResponseEntity<org.springframework.core.io.Resource> getDocumentThumb(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/document_types
+     * GET /api/document_types/
      *
      * @param page  (optional)
      * @param fullPerms  (optional)
@@ -948,10 +930,9 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/document_types",
+        value = "/api/document_types/",
         produces = { "application/json" }
     )
-    
     default ResponseEntity<GetDocumentTypes200Response> getDocumentTypes(
         @Parameter(name = "page", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page", required = false) Integer page,
         @Parameter(name = "full_perms", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "full_perms", required = false) Boolean fullPerms
@@ -965,13 +946,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/documents
+     * GET /api/documents/
      *
      * @param page  (optional)
      * @param pageSize  (optional)
@@ -995,10 +976,9 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/documents",
+        value = "/api/documents/",
         produces = { "application/json" }
     )
-    
     default ResponseEntity<GetDocuments200Response> getDocuments(
         @Parameter(name = "Page", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "Page", required = false) Integer page,
         @Parameter(name = "page_size", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page_size", required = false) Integer pageSize,
@@ -1019,13 +999,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/groups
+     * GET /api/groups/
      *
      * @param page  (optional)
      * @param pageSize  (optional)
@@ -1042,10 +1022,9 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/groups",
+        value = "/api/groups/",
         produces = { "application/json" }
     )
-    
     default ResponseEntity<GetGroups200Response> getGroups(
         @Parameter(name = "page", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page", required = false) Integer page,
         @Parameter(name = "page_size", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page_size", required = false) Integer pageSize
@@ -1059,13 +1038,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/logs/{id}
+     * GET /api/logs/{id}/
      *
      * @param id  (required)
      * @return Success (status code 200)
@@ -1081,10 +1060,9 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/logs/{id}",
+        value = "/api/logs/{id}/",
         produces = { "application/json" }
     )
-    
     default ResponseEntity<List<String>> getLog(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") String id
     ) {
@@ -1097,13 +1075,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/logs
+     * GET /api/logs/
      *
      * @return Success (status code 200)
      */
@@ -1118,10 +1096,9 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/logs",
+        value = "/api/logs/",
         produces = { "application/json" }
     )
-    
     default ResponseEntity<List<String>> getLogs(
         
     ) {
@@ -1134,13 +1111,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/saved_views
+     * GET /api/saved_views/
      *
      * @param page  (optional)
      * @param pageSize  (optional)
@@ -1157,10 +1134,9 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/saved_views",
+        value = "/api/saved_views/",
         produces = { "application/json" }
     )
-    
     default ResponseEntity<GetSavedViews200Response> getSavedViews(
         @Parameter(name = "page", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page", required = false) Integer page,
         @Parameter(name = "page_size", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page_size", required = false) Integer pageSize
@@ -1174,13 +1150,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/storage_paths
+     * GET /api/storage_paths/
      *
      * @param page  (optional)
      * @param fullPerms  (optional)
@@ -1197,10 +1173,9 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/storage_paths",
+        value = "/api/storage_paths/",
         produces = { "application/json" }
     )
-    
     default ResponseEntity<GetStoragePaths200Response> getStoragePaths(
         @Parameter(name = "page", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page", required = false) Integer page,
         @Parameter(name = "full_perms", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "full_perms", required = false) Boolean fullPerms
@@ -1214,13 +1189,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/tags
+     * GET /api/tags/
      *
      * @param page  (optional)
      * @param fullPerms  (optional)
@@ -1237,10 +1212,9 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/tags",
+        value = "/api/tags/",
         produces = { "application/json" }
     )
-    
     default ResponseEntity<GetTags200Response> getTags(
         @Parameter(name = "page", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page", required = false) Integer page,
         @Parameter(name = "full_perms", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "full_perms", required = false) Boolean fullPerms
@@ -1254,13 +1228,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/tasks
+     * GET /api/tasks/
      *
      * @return Success (status code 200)
      */
@@ -1275,10 +1249,9 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/tasks",
+        value = "/api/tasks/",
         produces = { "application/json" }
     )
-    
     default ResponseEntity<List<GetTasks200ResponseInner>> getTasks(
         
     ) {
@@ -1291,13 +1264,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * POST /api/token
+     * POST /api/token/
      *
      * @param userInfo  (optional)
      * @return Success (status code 200)
@@ -1311,20 +1284,19 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/api/token",
+        value = "/api/token/",
         consumes = { "application/json", "text/json", "application/*+json" }
     )
-    
     default ResponseEntity<Void> getToken(
         @Parameter(name = "UserInfo", description = "") @Valid @RequestBody(required = false) UserInfo userInfo
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/ui_settings
+     * GET /api/ui_settings/
      *
      * @return Success (status code 200)
      */
@@ -1339,10 +1311,9 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/ui_settings",
+        value = "/api/ui_settings/",
         produces = { "application/json" }
     )
-    
     default ResponseEntity<GetUISettings200Response> getUISettings(
         
     ) {
@@ -1355,13 +1326,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/users
+     * GET /api/users/
      *
      * @param page  (optional)
      * @param pageSize  (optional)
@@ -1378,10 +1349,9 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/users",
+        value = "/api/users/",
         produces = { "application/json" }
     )
-    
     default ResponseEntity<GetUsers200Response> getUsers(
         @Parameter(name = "page", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page", required = false) Integer page,
         @Parameter(name = "page_size", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page_size", required = false) Integer pageSize
@@ -1395,13 +1365,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * POST /api
+     * POST /api/
      *
      * @return Success (status code 200)
      */
@@ -1414,19 +1384,18 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/api"
+        value = "/api/"
     )
-    
     default ResponseEntity<Void> root(
         
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * POST /api/documents/selection_data
+     * POST /api/documents/selection_data/
      *
      * @param selectionDataRequest  (optional)
      * @return Success (status code 200)
@@ -1442,11 +1411,10 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/api/documents/selection_data",
+        value = "/api/documents/selection_data/",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<SelectionData200Response> selectionData(
         @Parameter(name = "SelectionDataRequest", description = "") @Valid @RequestBody(required = false) SelectionDataRequest selectionDataRequest
     ) {
@@ -1459,13 +1427,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * GET /api/statistics
+     * GET /api/statistics/
      *
      * @return Success (status code 200)
      */
@@ -1480,10 +1448,9 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/statistics",
+        value = "/api/statistics/",
         produces = { "application/json" }
     )
-    
     default ResponseEntity<Statistics200Response> statistics(
         
     ) {
@@ -1496,13 +1463,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * PUT /api/correspondents/{id}
+     * PUT /api/correspondents/{id}/
      *
      * @param id  (required)
      * @param updateCorrespondentRequest  (optional)
@@ -1519,11 +1486,10 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/api/correspondents/{id}",
+        value = "/api/correspondents/{id}/",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<UpdateCorrespondent200Response> updateCorrespondent(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id,
         @Parameter(name = "UpdateCorrespondentRequest", description = "") @Valid @RequestBody(required = false) UpdateCorrespondentRequest updateCorrespondentRequest
@@ -1537,13 +1503,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * PUT /api/documents/{id}
+     * PUT /api/documents/{id}/
      *
      * @param id  (required)
      * @param updateDocumentRequest  (optional)
@@ -1560,11 +1526,10 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/api/documents/{id}",
+        value = "/api/documents/{id}/",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<UpdateDocument200Response> updateDocument(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id,
         @Parameter(name = "UpdateDocumentRequest", description = "") @Valid @RequestBody(required = false) UpdateDocumentRequest updateDocumentRequest
@@ -1578,13 +1543,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * PUT /api/document_types/{id}
+     * PUT /api/document_types/{id}/
      *
      * @param id  (required)
      * @param updateDocumentTypeRequest  (optional)
@@ -1601,11 +1566,10 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/api/document_types/{id}",
+        value = "/api/document_types/{id}/",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<UpdateDocumentType200Response> updateDocumentType(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id,
         @Parameter(name = "UpdateDocumentTypeRequest", description = "") @Valid @RequestBody(required = false) UpdateDocumentTypeRequest updateDocumentTypeRequest
@@ -1619,13 +1583,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * PUT /api/groups/{id}
+     * PUT /api/groups/{id}/
      *
      * @param id  (required)
      * @param updateGroupRequest  (optional)
@@ -1642,11 +1606,10 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/api/groups/{id}",
+        value = "/api/groups/{id}/",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<UpdateGroup200Response> updateGroup(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id,
         @Parameter(name = "UpdateGroupRequest", description = "") @Valid @RequestBody(required = false) UpdateGroupRequest updateGroupRequest
@@ -1660,13 +1623,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * PUT /api/storage_paths/{id}
+     * PUT /api/storage_paths/{id}/
      *
      * @param id  (required)
      * @param updateStoragePathRequest  (optional)
@@ -1683,11 +1646,10 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/api/storage_paths/{id}",
+        value = "/api/storage_paths/{id}/",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<UpdateStoragePath200Response> updateStoragePath(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id,
         @Parameter(name = "UpdateStoragePathRequest", description = "") @Valid @RequestBody(required = false) UpdateStoragePathRequest updateStoragePathRequest
@@ -1701,13 +1663,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * PUT /api/tags/{id}
+     * PUT /api/tags/{id}/
      *
      * @param id  (required)
      * @param updateTagRequest  (optional)
@@ -1724,11 +1686,10 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/api/tags/{id}",
+        value = "/api/tags/{id}/",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<UpdateTag200Response> updateTag(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id,
         @Parameter(name = "UpdateTagRequest", description = "") @Valid @RequestBody(required = false) UpdateTagRequest updateTagRequest
@@ -1742,13 +1703,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * PUT /api/users/{id}
+     * PUT /api/users/{id}/
      *
      * @param id  (required)
      * @param updateUserRequest  (optional)
@@ -1765,11 +1726,10 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/api/users/{id}",
+        value = "/api/users/{id}/",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<GetUsers200ResponseResultsInner> updateUser(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") Integer id,
         @Parameter(name = "UpdateUserRequest", description = "") @Valid @RequestBody(required = false) UpdateUserRequest updateUserRequest
@@ -1783,13 +1743,13 @@ public interface Api {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
 
     /**
-     * POST /api/documents/post_document
+     * POST /api/documents/post_document/
      *
      * @param title  (optional)
      * @param created  (optional)
@@ -1808,10 +1768,9 @@ public interface Api {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/api/documents/post_document",
+        value = "/api/documents/post_document/",
         consumes = { "multipart/form-data" }
     )
-    
     default ResponseEntity<Void> uploadDocument(
         @Parameter(name = "title", description = "") @Valid @RequestParam(value = "title", required = false) String title,
         @Parameter(name = "created", description = "") @Valid @RequestParam(value = "created", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime created,
@@ -1820,7 +1779,7 @@ public interface Api {
         @Parameter(name = "correspondent", description = "") @Valid @RequestParam(value = "correspondent", required = false) Integer correspondent,
         @Parameter(name = "document", description = "") @RequestPart(value = "document", required = false) List<MultipartFile> document
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
