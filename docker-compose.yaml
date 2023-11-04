@@ -9,3 +9,11 @@ services:
       - "80:80"
     depends_on:
       - paperless-rest
+  paperless-db:
+    image: postgres:9.6
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: paperless
+      POSTGRES_PASSWORD: paperless
+      POSTGRES_DB: paperless
