@@ -1,19 +1,24 @@
 services:
-  paperless-rest:
-    build: ./paperless-rest
-    ports:
-      - "8080:8080"
+  # paperless-rest:
+  #   build: ./paperless-rest
+  #   ports:
+  #     - "8080:8080"
+  #   depends_on:
+  #     - paperless-db
   paperless-ui:
     build: ./paperless-ngx-ui
     ports:
       - "80:80"
-    depends_on:
-      - paperless-rest
   paperless-db:
-    image: postgres:9.6
+    image: postgres:latest
     ports:
       - "5432:5432"
     environment:
       POSTGRES_USER: paperless
       POSTGRES_PASSWORD: paperless
       POSTGRES_DB: paperless
+  paperless-queue:
+    image: rabbitmq:3.12-management
+    ports:
+      - 5672:5672
+      - 15672:15672

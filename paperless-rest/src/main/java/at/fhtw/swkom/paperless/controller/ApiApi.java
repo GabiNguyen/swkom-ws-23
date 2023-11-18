@@ -952,59 +952,6 @@ public interface ApiApi {
 
 
     /**
-     * GET /api/documents/
-     *
-     * @param page  (optional)
-     * @param pageSize  (optional)
-     * @param query  (optional)
-     * @param ordering  (optional)
-     * @param tagsIdAll  (optional)
-     * @param documentTypeId  (optional)
-     * @param storagePathIdIn  (optional)
-     * @param correspondentId  (optional)
-     * @param truncateContent  (optional)
-     * @return Success (status code 200)
-     */
-    @Operation(
-        operationId = "getDocuments",
-        tags = { "Documents" },
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Success", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = GetDocuments200Response.class))
-            })
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/api/documents/",
-        produces = { "application/json" }
-    )
-    default ResponseEntity<GetDocuments200Response> getDocuments(
-        @Parameter(name = "Page", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "Page", required = false) Integer page,
-        @Parameter(name = "page_size", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page_size", required = false) Integer pageSize,
-        @Parameter(name = "query", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "query", required = false) String query,
-        @Parameter(name = "ordering", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "ordering", required = false) String ordering,
-        @Parameter(name = "tags__id__all", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "tags__id__all", required = false) List<Integer> tagsIdAll,
-        @Parameter(name = "document_type__id", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "document_type__id", required = false) Integer documentTypeId,
-        @Parameter(name = "storage_path__id__in", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "storage_path__id__in", required = false) Integer storagePathIdIn,
-        @Parameter(name = "correspondent__id", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "correspondent__id", required = false) Integer correspondentId,
-        @Parameter(name = "truncate_content", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "truncate_content", required = false) Boolean truncateContent
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"next\" : 6, \"all\" : [ 5, 5 ], \"previous\" : 1, \"count\" : 0, \"results\" : [ { \"owner\" : 4, \"user_can_change\" : true, \"archive_serial_number\" : 2, \"notes\" : [ { \"note\" : \"note\", \"created\" : \"created\", \"document\" : 1, \"id\" : 7, \"user\" : 1 }, { \"note\" : \"note\", \"created\" : \"created\", \"document\" : 1, \"id\" : 7, \"user\" : 1 } ], \"added\" : \"added\", \"created\" : \"created\", \"title\" : \"title\", \"content\" : \"content\", \"tags\" : [ 3, 3 ], \"storage_path\" : 9, \"archived_file_name\" : \"archived_file_name\", \"modified\" : \"modified\", \"correspondent\" : 2, \"original_file_name\" : \"original_file_name\", \"id\" : 5, \"created_date\" : \"created_date\", \"document_type\" : 7 }, { \"owner\" : 4, \"user_can_change\" : true, \"archive_serial_number\" : 2, \"notes\" : [ { \"note\" : \"note\", \"created\" : \"created\", \"document\" : 1, \"id\" : 7, \"user\" : 1 }, { \"note\" : \"note\", \"created\" : \"created\", \"document\" : 1, \"id\" : 7, \"user\" : 1 } ], \"added\" : \"added\", \"created\" : \"created\", \"title\" : \"title\", \"content\" : \"content\", \"tags\" : [ 3, 3 ], \"storage_path\" : 9, \"archived_file_name\" : \"archived_file_name\", \"modified\" : \"modified\", \"correspondent\" : 2, \"original_file_name\" : \"original_file_name\", \"id\" : 5, \"created_date\" : \"created_date\", \"document_type\" : 7 } ] }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.OK);
-
-    }
-
-
-    /**
      * GET /api/groups/
      *
      * @param page  (optional)
@@ -1747,40 +1694,5 @@ public interface ApiApi {
 
     }
 
-
-    /**
-     * POST /api/documents/post_document/
-     *
-     * @param title  (optional)
-     * @param created  (optional)
-     * @param documentType  (optional)
-     * @param tags  (optional)
-     * @param correspondent  (optional)
-     * @param document  (optional)
-     * @return Success (status code 200)
-     */
-    @Operation(
-        operationId = "uploadDocument",
-        tags = { "Documents" },
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Success")
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.POST,
-        value = "/api/documents/post_document/",
-        consumes = { "multipart/form-data" }
-    )
-    default ResponseEntity<Void> uploadDocument(
-        @Parameter(name = "title", description = "") @Valid @RequestParam(value = "title", required = false) String title,
-        @Parameter(name = "created", description = "") @Valid @RequestParam(value = "created", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime created,
-        @Parameter(name = "document_type", description = "") @Valid @RequestParam(value = "document_type", required = false) Integer documentType,
-        @Parameter(name = "tags", description = "") @Valid @RequestPart(value = "tags", required = false) List<Integer> tags,
-        @Parameter(name = "correspondent", description = "") @Valid @RequestParam(value = "correspondent", required = false) Integer correspondent,
-        @Parameter(name = "document", description = "") @RequestPart(value = "document", required = false) List<MultipartFile> document
-    ) {
-        return new ResponseEntity<>(HttpStatus.OK);
-
-    }
 
 }
