@@ -23,7 +23,9 @@ public class DocumentService {
     }
 
     public Document postDocument(Document document) {
-        return documentRepository.save(document);
+        Document savedDocument = documentRepository.save(document);
+        rabbitMQService.sendMessage("Saved document with id " + savedDocument.getId());
+        return savedDocument;
     }
 
 }
