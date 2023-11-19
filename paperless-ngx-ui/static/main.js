@@ -23238,7 +23238,7 @@ globalThis.$localize = Object.assign(globalThis.$localize || {}, { locale: "en-U
       // The list of file replacements can be found in `angular.json`.
       const environment = {
         production: false,
-        apiBaseUrl: 'http://localhost:8080/api/',
+        apiBaseUrl: '/api/',
         apiVersion: '2',
         appTitle: 'Paperless-ngx',
         version: 'DEVELOPMENT',
