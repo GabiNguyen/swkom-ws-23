@@ -51,8 +51,7 @@ public class DocumentsController {
     public List<Document> postDocuments(@Parameter(name = "document", description = "") @RequestPart(value = "document", required = false) List<MultipartFile> document) {
         List<Document> documents = new ArrayList<>();
         for(int i=0; i<document.size(); i++){
-            Document doc = new Document(document.get(0).getOriginalFilename(), document.get(0).getContentType());
-            documents.add(documentService.postDocument(doc));
+            documents.add(documentService.postDocument(document.get(i)));
         }
         return documents;
     }
