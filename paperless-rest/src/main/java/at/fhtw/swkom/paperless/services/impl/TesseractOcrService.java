@@ -2,7 +2,6 @@ package at.fhtw.swkom.paperless.services.impl;
 
 import at.fhtw.swkom.paperless.config.RabbitMQConfig;
 import at.fhtw.swkom.paperless.services.OcrService;
-import at.fhtw.swkom.paperless.services.OcrService2;
 import at.fhtw.swkom.paperless.services.StorageFileNotFoundException;
 import at.fhtw.swkom.paperless.services.StorageService;
 import at.fhtw.swkom.paperless.services.dto.Document;
@@ -30,7 +29,7 @@ import java.time.OffsetDateTime;
 
 @Component
 @Slf4j
-public class TesseractOcrService implements OcrService2 {
+public class TesseractOcrService implements OcrService {
     private final RabbitTemplate rabbit;
 
     private final StorageService storageService;
@@ -83,6 +82,7 @@ public class TesseractOcrService implements OcrService2 {
     public String doOCR(File tempFile) throws TesseractException {
         var tesseract = new Tesseract();
         tesseract.setDatapath(tesseractData);
+        tesseract.setLanguage("eng");
         return tesseract.doOCR(tempFile);
     }
 
