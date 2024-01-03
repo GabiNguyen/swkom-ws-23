@@ -10,6 +10,9 @@ import at.fhtw.swkom.paperless.persistence.repository.DocumentRepository;
 
 import java.io.InputStream;
 import java.util.List;
+
+import io.minio.BucketExistsArgs;
+import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.errors.MinioException;
@@ -40,12 +43,21 @@ public class DocumentService {
 
         // Upload the document to Minio
         try {
-            String bucketName = "documents"; // Replace with your bucket name
+            String bucketName = "documents"; 
             String objectName = "documents/" + savedDocument.getId() + "-" + savedDocument.getTitle(); // Object name in
                                                                                                        // Minio
 
-            // Get the document's input stream (assuming you have a method to get it)
+            // Get the document's input stream 
             InputStream inputStream = document.getInputStream();
+
+            //check if bucket exists, if not create it
+            boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
+            if (!found) {
+                minioClient.makeBucket(
+                        MakeBucketArgs.builder()
+                                .bucket(bucketName)
+                                .build());
+            }
 
             // Upload the document to Minio
             minioClient.putObject(

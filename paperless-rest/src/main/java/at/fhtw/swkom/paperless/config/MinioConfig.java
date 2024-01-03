@@ -10,8 +10,8 @@ public class MinioConfig {
     public MinioClient minioClient() {
         // Initialize Minio client
         return MinioClient.builder()
-                .endpoint("http://localhost:9000") // Replace with your Minio server URL
-                .credentials("minio", "minio123") // Replace with your Minio credentials
+                .endpoint("http://localhost:9000") 
+                .credentials("minio", "minio123") 
                 .build();
     }
 }
