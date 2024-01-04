@@ -4,6 +4,7 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
+        <option value="$PROJECT_DIR$/paperless-ocr-worker/pom.xml" />
         <option value="$PROJECT_DIR$/paperless-rest/pom.xml" />
       </list>
     </option>
