@@ -49,17 +49,17 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue ocrInQueue() {
-        return new Queue(OCR_IN_QUEUE_NAME, false);
+        return new Queue(OCR_IN_QUEUE_NAME, true);
     }
 
     @Bean
     public Queue ocrOutQueue() {
-        return new Queue(OCR_OUT_QUEUE_NAME, false);
+        return new Queue(OCR_OUT_QUEUE_NAME, true);
     }
 
     @Bean
     public ConnectionFactory connectionFactory() {
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory("paperless-queue");
         connectionFactory.setUsername("guest");
         connectionFactory.setPassword("guest");
         return connectionFactory;
