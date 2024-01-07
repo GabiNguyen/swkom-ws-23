@@ -18,6 +18,7 @@ import org.springframework.util.ErrorHandler;
 @Configuration
 public class RabbitMQConfig {
 
+    public static final String EXCHANGE = "";
     public static final String OCR_IN_QUEUE_NAME = "OCR_In";
     public static final String OCR_OUT_QUEUE_NAME = "OCR_Out";
     public static final String DOCUMENT_STORAGE_PATH_PROPERTY_NAME = "FileStoragePath";
@@ -58,7 +59,7 @@ public class RabbitMQConfig {
 
     @Bean
     public ConnectionFactory connectionFactory() {
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory("paperless-queue");
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");
         connectionFactory.setUsername("guest");
         connectionFactory.setPassword("guest");
         return connectionFactory;

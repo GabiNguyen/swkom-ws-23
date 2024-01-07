@@ -5,6 +5,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/paperless-ocr-worker/pom.xml" />
+        <option value="$PROJECT_DIR$/paperlesgit checkout -b old-state 0d1d7fc32s-rest/pom.xml" />
         <option value="$PROJECT_DIR$/paperless-rest/pom.xml" />
       </list>
     </option>
