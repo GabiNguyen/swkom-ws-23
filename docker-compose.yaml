@@ -1,10 +1,10 @@
 services:
-  # paperless-rest:
-  #   build: ./paperless-rest
-  #   ports:
-  #     - "8080:8080"
-  #   depends_on:
-  #     - paperless-db
+  paperless-rest:
+    build: ./paperless-rest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - paperless-db
 
   paperless-ui:
     build: ./paperless-ngx-ui
