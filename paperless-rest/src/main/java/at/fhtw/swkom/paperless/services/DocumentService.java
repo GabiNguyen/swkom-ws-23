@@ -66,8 +66,8 @@ public class DocumentService {
                             .contentType(doc.getMimeType())
                             .build());
 
-            // Send a message about the document being saved and uploaded
-            rabbitMQService.sendMessage("Saved document with id " + savedDocument.getId() + " and uploaded to Minio");
+            // Send a message with the id of the saved document to the RabbitMQ queue
+            rabbitMQService.sendMessage(savedDocument.getId());
         } catch (Exception e) {
             // Handle Minio or other exceptions
             e.printStackTrace();

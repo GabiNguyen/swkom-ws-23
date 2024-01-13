@@ -20,8 +20,8 @@ public class RabbitMQService {
     @Value("${rabbitmq.routing.key.name}")
     private String routingKey;
 
-    public void sendMessage(String message) {
-        amqpTemplate.convertAndSend(exchange, routingKey, message);
+    public void sendMessage(Integer message) {
+        amqpTemplate.convertAndSend(exchange, routingKey, Integer.toString(message));
         System.out.println("Message sent: " + message);
     }
 }
