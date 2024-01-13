@@ -4,49 +4,45 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.io.InputStream;
 import java.time.OffsetDateTime;
 import java.util.Set;
 
 @Entity
-@Table(name = "documents_document")
+@Table(name = "documents")
 public class Document {
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 128)
-    @NotNull
-    @Column(name = "title", nullable = false, length = 128)
+    @Column(name = "title", length = 128)
     private String title;
 
-    @NotNull
-    @Column(name = "content", nullable = false)
+    @Column(name = "content")
     private String content;
 
-    @NotNull
-    @Column(name = "created", nullable = false)
+    @Column(name = "created")
     private OffsetDateTime created;
 
-    @NotNull
-    @Column(name = "modified", nullable = false)
+    @Column(name = "modified")
     private OffsetDateTime modified;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "correspondent_id")
     private DocumentCorrespondent correspondent;
 
-    @Size(max = 32)
-    @NotNull
-    @Column(name = "checksum", nullable = false, length = 32)
-    private String checksum;
+    // @Size(max = 32)
+    // @NotNull
+    // @Column(name = "checksum", nullable = false, length = 32)
+    // private String checksum;
 
-    @NotNull
     @Column(name = "added", nullable = false)
-    private OffsetDateTime added;
+    private OffsetDateTime added = OffsetDateTime.now();
 
     @Size(max = 11)
-    @NotNull
-    @Column(name = "storage_type", nullable = false, length = 11)
+    @Column(name = "storage_type", length = 11)
     private String storageType;
 
     @Size(max = 1024)
@@ -60,28 +56,36 @@ public class Document {
     @JoinColumn(name = "document_type_id")
     private DocumentType documentType;
 
-    @ManyToMany
-    @JoinTable(name = "document_to_tags",
-            joinColumns = @JoinColumn(name = "document_id"),
-            inverseJoinColumns = @JoinColumn(name = "document_tag_id"))
-    private Set<DocumentTag> documentTags;
+    // @ManyToMany
+    // @JoinTable(name = "document_to_tags",
+    //         joinColumns = @JoinColumn(name = "document_id"),
+    //         inverseJoinColumns = @JoinColumn(name = "document_tag_id"))
+    // private Set<DocumentTag> documentTags;
 
     @Size(max = 256)
     // @NotNull
-    @Column(name = "mime_type", nullable = false, length = 256)
+    @Column(name = "mime_type", length = 256)
     private String mimeType;
 
-    @Size(max = 32)
-    @Column(name = "archive_checksum", length = 32)
-    private String archiveChecksum;
+    // @Size(max = 32)
+    // @Column(name = "archive_checksum", length = 32)
+    // private String archiveChecksum;
 
-    @Size(max = 1024)
-    @Column(name = "archive_filename", length = 1024)
-    private String archiveFilename;
+    // @Size(max = 1024)
+    // @Column(name = "archive_filename", length = 1024)
+    // private String archiveFilename;
 
-    @Size(max = 1024)
-    @Column(name = "original_filename", length = 1024)
-    private String originalFilename;
+    // @Size(max = 1024)
+    // @Column(name = "original_filename", length = 1024)
+    // private String originalFilename;
+
+
+
+    public Document(String originalFilename, String contentType) {
+        this.title = originalFilename;
+        this.mimeType = contentType;
+        // this.inputStream = inputStream;
+    }
 
     public Integer getId() {
         return id;
@@ -131,13 +135,13 @@ public class Document {
         this.correspondent = correspondent;
     }
 
-    public String getChecksum() {
-        return checksum;
-    }
+    // public String getChecksum() {
+    //     return checksum;
+    // }
 
-    public void setChecksum(String checksum) {
-        this.checksum = checksum;
-    }
+    // public void setChecksum(String checksum) {
+    //     this.checksum = checksum;
+    // }
 
     public OffsetDateTime getAdded() {
         return added;
@@ -179,13 +183,13 @@ public class Document {
         this.documentType = documentType;
     }
 
-    public Set<DocumentTag> getDocumentTags() {
-        return documentTags;
-    }
+    // public Set<DocumentTag> getDocumentTags() {
+    //     return documentTags;
+    // }
 
-    public void setDocumentTags(Set<DocumentTag> documentTags) {
-        this.documentTags = documentTags;
-    }
+    // public void setDocumentTags(Set<DocumentTag> documentTags) {
+    //     this.documentTags = documentTags;
+    // }
 
     public String getMimeType() {
         return mimeType;
@@ -195,28 +199,28 @@ public class Document {
         this.mimeType = mimeType;
     }
 
-    public String getArchiveChecksum() {
-        return archiveChecksum;
-    }
+    // public String getArchiveChecksum() {
+    //     return archiveChecksum;
+    // }
 
-    public void setArchiveChecksum(String archiveChecksum) {
-        this.archiveChecksum = archiveChecksum;
-    }
+    // public void setArchiveChecksum(String archiveChecksum) {
+    //     this.archiveChecksum = archiveChecksum;
+    // }
 
-    public String getArchiveFilename() {
-        return archiveFilename;
-    }
+    // public String getArchiveFilename() {
+    //     return archiveFilename;
+    // }
 
-    public void setArchiveFilename(String archiveFilename) {
-        this.archiveFilename = archiveFilename;
-    }
+    // public void setArchiveFilename(String archiveFilename) {
+    //     this.archiveFilename = archiveFilename;
+    // }
 
-    public String getOriginalFilename() {
-        return originalFilename;
-    }
+    // public String getOriginalFilename() {
+    //     return originalFilename;
+    // }
 
-    public void setOriginalFilename(String originalFilename) {
-        this.originalFilename = originalFilename;
-    }
+    // public void setOriginalFilename(String originalFilename) {
+    //     this.originalFilename = originalFilename;
+    // }
 
 }

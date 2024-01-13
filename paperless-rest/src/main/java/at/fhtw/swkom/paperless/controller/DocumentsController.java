@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -42,9 +43,17 @@ public class DocumentsController {
         return documentService.getAllDocuments();
     }
 
-    @PostMapping("/post_document")
-    public Document postDocuments(@RequestBody Document document) {
-        return documentService.postDocument(document);
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/post_document/",
+        consumes = { "multipart/form-data" }
+    )
+    public List<Document> postDocuments(@Parameter(name = "document", description = "") @RequestPart(value = "document", required = false) List<MultipartFile> document) {
+        List<Document> documents = new ArrayList<>();
+        for(int i=0; i<document.size(); i++){
+            documents.add(documentService.postDocument(document.get(i)));
+        }
+        return documents;
     }
 
 }
