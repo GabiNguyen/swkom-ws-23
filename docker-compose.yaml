@@ -1,10 +1,10 @@
 services:
-  # paperless-rest:
-  #   build: ./paperless-rest
-  #   ports:
-  #     - "8080:8080"
-  #   depends_on:
-  #     - paperless-db
+  paperless-rest:
+    build: ./paperless-rest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - paperless-db
 
   paperless-ui:
     build: ./paperless-ngx-ui
@@ -25,6 +25,13 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+
+  paperless-ocr-worker:
+    build: ./paperless-ocr-worker
+    ports:
+      - "8081:8081"
+    depends_on:
+      - paperless-queue
 
   minio:
     image: minio/minio
@@ -52,3 +59,24 @@ services:
       /bin/sh -c "
       /usr/bin/mc alias set minio http://minio:9000 minio minio123 &&
       /usr/bin/mc mb minio/paperless"
+
+#  elastic_search:
+#    image: elasticsearch:8.7.1
+#    environment:
+#      - discovery.type=single-node
+#      - cluster.name=docker-cluster
+#      - bootstrap.memory_lock=true
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#      - "xpack.security.enabled=false"
+#      - "xpack.security.enrollment.enabled=false"
+#    # ulimits:
+#    #   memlock:
+#    #     soft: -1
+#    #     hard: -1
+#    ports:
+#      - 9200:9200
+#      - 9300:9300
+#    kibanba:
+#      image: docker.elastic.co/kibana/kibana:8.2.3
+#      ports:
+#        - 5601:5601

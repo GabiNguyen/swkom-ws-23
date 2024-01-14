@@ -25,14 +25,14 @@ public class DocumentService {
     private MinioClient minioClient;
 
     public DocumentService(DocumentRepository documentRepository, RabbitMQService rabbitMQService,
-            MinioClient minioClient) {
+                           MinioClient minioClient) {
         this.documentRepository = documentRepository;
         this.rabbitMQService = rabbitMQService;
         this.minioClient = minioClient;
     }
 
     public List<Document> getAllDocuments() {
-        rabbitMQService.sendMessage("message");
+//        rabbitMQService.sendMessage("message");
         return documentRepository.findAll();
     }
 
@@ -43,11 +43,11 @@ public class DocumentService {
 
         // Upload the document to Minio
         try {
-            String bucketName = "documents"; 
+            String bucketName = "documents";
             String objectName = "documents/" + savedDocument.getId() + "-" + savedDocument.getTitle(); // Object name in
-                                                                                                       // Minio
+            // Minio
 
-            // Get the document's input stream 
+            // Get the document's input stream
             InputStream inputStream = document.getInputStream();
 
             //check if bucket exists, if not create it
@@ -62,12 +62,13 @@ public class DocumentService {
             // Upload the document to Minio
             minioClient.putObject(
                     PutObjectArgs.builder().bucket(bucketName).object(objectName).stream(
-                            inputStream, -1, 10485760)
+                                    inputStream, -1, 10485760)
                             .contentType(doc.getMimeType())
                             .build());
 
             // Send a message about the document being saved and uploaded
-            rabbitMQService.sendMessage("Saved document with id " + savedDocument.getId() + " and uploaded to Minio");
+//            rabbitMQService.sendMessage("Saved document with id " + savedDocument.getId() + " and uploaded to Minio");
+            rabbitMQService.sendMessage(savedDocument.getId());
         } catch (Exception e) {
             // Handle Minio or other exceptions
             e.printStackTrace();
