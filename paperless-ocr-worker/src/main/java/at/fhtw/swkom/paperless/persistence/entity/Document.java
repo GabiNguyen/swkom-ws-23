@@ -84,6 +84,9 @@ public class Document {
         // this.inputStream = inputStream;
     }
 
+    public Document() {
+    }
+
     public Integer getId() {
         return id;
     }

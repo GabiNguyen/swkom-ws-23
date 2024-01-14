@@ -14,6 +14,9 @@ import io.minio.errors.MinioException;
 import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
+import org.apache.tika.detect.Detector;
+import org.apache.tika.detect.TypeDetector;
+import org.apache.tika.io.TikaInputStream;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -23,10 +26,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.OffsetDateTime;
@@ -51,43 +53,6 @@ public class TesseractOcrService implements OcrService {
         this.documentRepository = documentRepository;
     }
 
-//    @Override
-//    @RabbitListener(queues = "${rabbitmq.queue.name}")
-//    public void processMessage(String message) throws JsonProcessingException {
-//        log.info("Received Message: " + message);
-//
-//        ObjectMapper mapper = new ObjectMapper();
-//        mapper.registerModule(new JavaTimeModule());
-//        mapper.registerModule(new JsonNullableModule());
-//
-//        // fetch document data
-//        Document document = mapper.readValue(message, Document.class);
-//        log.debug("Received Document: " + document);
-//
-//        // fetch document file from Minio
-//        try {
-//            InputStream is = minioClient.getObject(GetObjectArgs.builder()
-//                    .bucket("documents")
-//                    .object(document.getId() + "-" + document.getTitle())
-//                    .build());
-//
-//            // do OCR recognition
-//            File tempFile = createTempFile(document.getTitle(), is);
-//            String result = doOCR(tempFile);
-//            log.info(result);
-//
-//            document.setContent(String.valueOf(JsonNullable.of(result)));
-//            document.setModified(OffsetDateTime.now());
-//
-//            String updatedDocumentString = mapper.writeValueAsString(document);
-//            rabbit.convertAndSend("${rabbitmq.exchange.name}", "${rabbitmq.routing.key.name}", updatedDocumentString);
-//        } catch (TesseractException | IOException | MinioException e) {
-//            log.error(e.getMessage());
-//        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
     @Override
     @RabbitListener(queues = "${rabbitmq.queue.name}")
     public void processMessage(String message) {
@@ -99,14 +64,15 @@ public class TesseractOcrService implements OcrService {
 
             // Fetch document title from the database
             Optional<Document> optionalDocument = documentRepository.findById(documentId);
+
             if (optionalDocument.isPresent()) {
                 Document document = optionalDocument.get();
-                log.debug("Received Document: " + document);
+                log.info("Received Document: " + document.getTitle());
 
                 // Fetch document file from Minio using title
                 InputStream is = minioClient.getObject(GetObjectArgs.builder()
                         .bucket("documents")
-                        .object(document.getId() + "-" + document.getTitle())
+                        .object("documents/" + documentId + "-" + document.getTitle())
                         .build());
 
                 // Do OCR recognition
@@ -115,7 +81,8 @@ public class TesseractOcrService implements OcrService {
                 log.info(result);
 
                 // Update content of the document
-                document.setContent(String.valueOf(JsonNullable.of(result)));
+//                document.setContent(String.valueOf(JsonNullable.of(result)));
+                document.setContent(result);
                 document.setModified(OffsetDateTime.now());
 
                 // Save the updated document in the database
@@ -129,29 +96,39 @@ public class TesseractOcrService implements OcrService {
         }
     }
 
-//    private long extractDocumentId(String message) {
-//        // Assuming that the message format is "Saved document with id {documentId} and uploaded to Minio"
-//        String[] parts = message.split(" ");
-//        return Long.parseLong(parts[5]);
-//    }
 
     public String doOCR(File tempFile) throws TesseractException {
         var tesseract = new Tesseract();
         tesseract.setDatapath(tesseractData);
         tesseract.setLanguage("eng");
-        return tesseract.doOCR(tempFile);
+        String result = tesseract.doOCR(tempFile);
+        System.out.println("OCR Result: " + result);
+        return result;
     }
 
     private static File createTempFile(String title, InputStream is) throws IOException {
-        File tempFile = File.createTempFile(title, ".png");
+        // Extract the file extension from the title
+        String fileExtension = extractFileExtension(title);
+
+        File tempFile = File.createTempFile(title, "." + fileExtension);
         tempFile.deleteOnExit();
+
         try (FileOutputStream out = new FileOutputStream(tempFile)) {
             byte[] buffer = new byte[1024];
             int bytesRead;
             while ((bytesRead = is.read(buffer)) != -1) {
-                out.write(buffer, 0, bytesRead);  //copy it to file system
+                out.write(buffer, 0, bytesRead);
             }
         }
         return tempFile;
     }
+
+    private static String extractFileExtension(String title) {
+        Path path = Paths.get(title);
+        String fileName = path.getFileName().toString();
+        int dotIndex = fileName.lastIndexOf(".");
+        return dotIndex != -1 ? fileName.substring(dotIndex + 1) : ""; // Extract file extension
+    }
+
+
 }

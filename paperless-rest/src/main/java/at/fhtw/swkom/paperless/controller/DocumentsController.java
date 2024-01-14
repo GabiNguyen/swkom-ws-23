@@ -44,9 +44,9 @@ public class DocumentsController {
     }
 
     @RequestMapping(
-        method = RequestMethod.POST,
-        value = "/post_document/",
-        consumes = { "multipart/form-data" }
+            method = RequestMethod.POST,
+            value = "/post_document/",
+            consumes = { "multipart/form-data" }
     )
     public List<Document> postDocuments(@Parameter(name = "document", description = "") @RequestPart(value = "document", required = false) List<MultipartFile> document) {
         List<Document> documents = new ArrayList<>();
