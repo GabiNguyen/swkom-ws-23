@@ -2,11 +2,11 @@ package at.fhtw.swkom.paperless.services.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.annotation.processing.Generated;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -230,7 +230,7 @@ public class Document {
    * Get createdDate
    * @return createdDate
   */
-  @Valid
+  @Valid 
   @Schema(name = "created_date", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("created_date")
   public OffsetDateTime getCreatedDate() {

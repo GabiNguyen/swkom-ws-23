@@ -26,6 +26,13 @@ services:
       - 5672:5672
       - 15672:15672
 
+  paperless-ocr-worker:
+    build: ./paperless-ocr-worker
+    ports:
+      - "8081:8081"
+    depends_on:
+      - paperless-queue
+
   minio:
     image: minio/minio
     ports:
@@ -59,3 +66,4 @@ services:
       - "8081:8081"
     depends_on:
       - paperless-queue
+
