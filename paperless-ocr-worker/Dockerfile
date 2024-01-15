@@ -14,8 +14,8 @@ RUN mvn package -DskipTests
 # Eclipse JRE 17 Base Image
 FROM eclipse-temurin:17.0.7_7-jre
 
-# Create a directory to store OCR data
-RUN mkdir /ocr-data
+## Create a directory to store OCR data
+#RUN mkdir /ocr-data
 
 # Set the working directory
 WORKDIR /app

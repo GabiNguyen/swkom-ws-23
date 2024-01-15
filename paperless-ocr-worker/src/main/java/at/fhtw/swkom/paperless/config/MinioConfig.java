@@ -10,7 +10,7 @@ public class MinioConfig {
     public MinioClient minioClient() {
         // Initialize Minio client
         return MinioClient.builder()
-                .endpoint("http://localhost:9000") 
+                .endpoint("http://minio:9000")
                 .credentials("minio", "minio123") 
                 .build();
     }

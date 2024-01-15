@@ -1,4 +1,4 @@
-package at.fhtw.swkom.paperless.services;
+package at.fhtw.swkom.paperless;
 
 import com.fasterxml.jackson.databind.Module;
 import org.openapitools.jackson.nullable.JsonNullableModule;
@@ -11,25 +11,25 @@ import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGe
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EntityScan(
-    basePackages = {"at.fhtw.swkom.paperless.persistence.entity"}
+        basePackages = {"at.fhtw.swkom.paperless.persistence.entity"}
 )
 @EnableJpaRepositories(
-    basePackages = {"at.fhtw.swkom.paperless.persistence.repository"}
+        basePackages = {"at.fhtw.swkom.paperless.persistence.repository"}
 )
 @SpringBootApplication(
-    nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
+        nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
 @ComponentScan(
-    basePackages = {"at.fhtw.swkom.paperless.services", "at.fhtw.swkom.paperless.controller" , "at.fhtw.swkom.paperless.config"},
-    nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
+        basePackages = {"at.fhtw.swkom.paperless.services", "at.fhtw.swkom.paperless.controller" , "at.fhtw.swkom.paperless.config"},
+        nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
-public class OpenApiGeneratorApplication {
+public class PaperlessServicesApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OpenApiGeneratorApplication.class, args);
+        SpringApplication.run(PaperlessServicesApplication.class, args);
     }
 
-    @Bean(name = "at.fhtw.swkom.paperless.services.OpenApiGeneratorApplication.jsonNullableModule")
+    @Bean(name = "at.fhtw.swkom.paperless.PaperlessServicesApplication.jsonNullableModule")
     public Module jsonNullableModule() {
         return new JsonNullableModule();
     }
