@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Generated;
 import org.openapitools.jackson.nullable.JsonNullable;
-
 import java.util.Arrays;
 import java.util.Objects;
 
