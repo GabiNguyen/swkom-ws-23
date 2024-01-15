@@ -154,6 +154,7 @@
             <artifactId>minio</artifactId>
             <version>8.5.7</version>
         </dependency>
+        <dependency>
             <groupId>io.rsocket</groupId>
             <artifactId>rsocket-transport-netty</artifactId>
         </dependency>
