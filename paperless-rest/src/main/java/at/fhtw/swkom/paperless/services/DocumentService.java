@@ -32,7 +32,6 @@ public class DocumentService {
     }
 
     public List<Document> getAllDocuments() {
-        rabbitMQService.sendMessage("message");
         return documentRepository.findAll();
     }
 

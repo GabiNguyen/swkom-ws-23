@@ -7,8 +7,7 @@
             "driver": "PostgreSQL",
             "name": "paperless",
             "database": "paperless",
-            "username": "paperless",
-            "password": "paperless"
+            "username": "paperless"
         }
     ]
 }
