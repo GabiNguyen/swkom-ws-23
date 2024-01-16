@@ -8,6 +8,13 @@
             "type": "java",
             "name": "OpenApiGeneratorApplication",
             "request": "launch",
+            "mainClass": "at.fhtw.swkom.paperless.OpenApiGeneratorApplication",
+            "projectName": "openapi-spring"
+        },
+        {
+            "type": "java",
+            "name": "OpenApiGeneratorApplication",
+            "request": "launch",
             "mainClass": "at.fhtw.swkom.paperless.services.OpenApiGeneratorApplication",
             "projectName": "openapi-spring"
         }
