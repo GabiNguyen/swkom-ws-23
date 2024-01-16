@@ -1,24 +1,37 @@
 package at.fhtw.swkom.paperless;
 
-import at.fhtw.swkom.paperless.services.StorageService;
-import org.springframework.boot.CommandLineRunner;
+import com.fasterxml.jackson.databind.Module;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication
+@EntityScan(
+        basePackages = {"at.fhtw.swkom.paperless.persistence.entity"}
+)
+@EnableJpaRepositories(
+        basePackages = {"at.fhtw.swkom.paperless.persistence.repository"}
+)
+@SpringBootApplication(
+        nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
+)
+@ComponentScan(
+        basePackages = {"at.fhtw.swkom.paperless.services", "at.fhtw.swkom.paperless.controller" , "at.fhtw.swkom.paperless.config"},
+        nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
+)
 public class PaperlessServicesApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(PaperlessServicesApplication.class, args);
     }
 
-    @Bean
-    CommandLineRunner init(StorageService storageService) {
-        return (args) -> {
-            //storageService.deleteAll();
-            storageService.init();
-        };
+    @Bean(name = "at.fhtw.swkom.paperless.PaperlessServicesApplication.jsonNullableModule")
+    public Module jsonNullableModule() {
+        return new JsonNullableModule();
     }
 
 }

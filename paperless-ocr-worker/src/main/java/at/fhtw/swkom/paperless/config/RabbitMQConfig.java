@@ -41,18 +41,19 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(queue()).to(exchange()).with(routing_key);
     }
 
-    @Bean
-    public ConnectionFactory connectionFactory() {
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-        connectionFactory.setUsername("guest");
-        connectionFactory.setPassword("guest");
-        return connectionFactory;
-    }
+//    @Bean
+//    public ConnectionFactory connectionFactory() {
+//        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
+//        connectionFactory.setUsername("guest");
+//        connectionFactory.setPassword("guest");
+//        return connectionFactory;
+//    }
 
-    @Bean
-    public RabbitTemplate rabbitTemplate() {
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
-        rabbitTemplate.setDefaultReceiveQueue(queue);
-        return rabbitTemplate;
-    }
+//    @Bean
+//    public RabbitTemplate rabbitTemplate() {
+//        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
+//        rabbitTemplate.setDefaultReceiveQueue(queue);
+//        return rabbitTemplate;
+//    }
+
 }

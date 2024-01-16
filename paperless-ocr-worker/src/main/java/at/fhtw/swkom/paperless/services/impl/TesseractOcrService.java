@@ -78,6 +78,9 @@ public class TesseractOcrService implements OcrService {
                 // Do OCR recognition
                 File tempFile = createTempFile(document.getTitle(), is);
                 String result = doOCR(tempFile);
+                log.info("Document Size: " + tempFile.length());
+                log.info("Document Content: " + result);
+
                 log.info(result);
 
                 // Update content of the document
@@ -90,9 +93,21 @@ public class TesseractOcrService implements OcrService {
             } else {
                 log.error("Document not found for ID: " + documentId);
             }
-        } catch (TesseractException | IOException | MinioException | NoSuchAlgorithmException | InvalidKeyException e) {
-            log.error("Error processing the message: " + e.getMessage());
-            throw new RuntimeException(e);
+        } catch (TesseractException e) {
+            log.error("Tesseract OCR Error: " + e.getMessage());
+            // Handle TesseractException
+        } catch (IOException e) {
+            log.error("IO Error: " + e.getMessage());
+            // Handle IOException
+        } catch (MinioException e) {
+            log.error("Minio Error: " + e.getMessage());
+            // Handle MinioException
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+            log.error("Security Error: " + e.getMessage());
+            // Handle security-related exceptions
+        } catch (Exception e) {
+            log.error("Unexpected Error: " + e.getMessage());
+            // Handle other exceptions
         }
     }
 
